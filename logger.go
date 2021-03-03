@@ -1,4 +1,4 @@
-package log
+package logs
 
 import (
 	"bytes"
@@ -163,6 +163,10 @@ func MustRollingLog(dir string, maxFileFrag int, maxFragSize int64, logLevel str
 	}
 
 	SetFlags(Flags() | Lshortfile)
+}
+
+func (l *Logger) GetIoWriter() io.Writer {
+	return l.log.Writer()
 }
 
 func (l *Logger) Flags() int {
@@ -426,4 +430,8 @@ func Printf(format string, v ...interface{}) {
 func Println(v ...interface{}) {
 	s := fmt.Sprintln(v...)
 	StdLog.output(1, 0, s)
+}
+
+func GetIoWriter() io.Writer {
+	return StdLog.GetIoWriter()
 }
